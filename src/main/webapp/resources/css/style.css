@@ -1,0 +1,15 @@
+.grey-table>thead>tr>th {
+    background-color: #e1e1e8;
+}
+
+.table>tfoot>tr>th, .table>tfoot>tr>td {
+    border: none;
+}
+
+.table1 {
+    display: inline-block;
+}
+
+.table1 td {
+    padding: 2px;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.password">1234</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/infinity2</property>
+    <property name="hibernate.connection.username">ade</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="show_sql">true</property>
+    
+    
+    <mapping class="modelDatabase.pelanggan"/>
+    <mapping class="modelDatabase.supplier"/>
+    <mapping class="modelDatabase.pegawai"/>
+    <mapping class="modelDatabase.barang"/>
+    <mapping class="modelDatabase.barang"/>
+    
+    
+    <mapping class="modelDatabase.purchase_order"/>
+    <mapping class="modelDatabase.detail_purchase_order"/>
+    
+    <mapping class="modelDatabase.retur_pembelian"/>
+    
+    <mapping class="modelDatabase.penjualan"/>
+    <mapping class="modelDatabase.detail_penjualan"/>
+    <mapping class="modelDatabase.retur_penjualan"/>
+    
+    <mapping class="modelDatabase.klaim_garansi"/>
+    
+  </session-factory>
+</hibernate-configuration>
