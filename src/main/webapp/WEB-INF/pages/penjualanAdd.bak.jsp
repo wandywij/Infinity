@@ -32,13 +32,13 @@
             <div class="form-group">
                 <label for="alamat" class="col-xs-2 control-label">Pelanggan</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="pelanggan" name="pelanggan"<c:if test="${!empty dataEdit}"> value="${dataEdit.pelanggan}"</c:if>>
+                    <textarea id="pelanggan" name="pelanggan" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.pelanggan}</c:if></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label for="alamat" class="col-xs-2 control-label">Pegawai</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="pegawai" name="pegawai"<c:if test="${!empty dataEdit}"> value="${dataEdit.pegawai}"</c:if>>
+                    <textarea id="pegawai" name="pegawai" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.pegawai}</c:if></textarea>
                 </div>
             </div>
             <br/><br/>
@@ -87,8 +87,8 @@
                             </c:if>
                             <c:if test="${empty isDetail}">
 				<tr>
-                                    <td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>
-					<td><input type="text" class="form-control" id="namabarang" name="namabarang"></td>
+					<td><textarea id="kodebarang" name="kodebarang" rows="1"></textarea></td>
+					<td><textarea id="namabarang" name="namabarang" rows="1"></textarea></td>
 					<td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>
                                         <td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>
                                         <td><input type="text" class="form-control numberfilter diskon" name="diskon" value="0" style="text-align: right;"/></td>
@@ -127,33 +127,106 @@ function makereadonly(elementtt) {
     elementtt.css('background-color','#fff');
     elementtt.css('border','none');
 }
-var cacheBarang = {};
-function refreshautocompletebarang() {
-    $('#namabarang').autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
-            var term = request.term;
-            if (term[0] == "(" && term.indexOf(")", 1) != -1)
-                request.term = term = term.substring(1, term.indexOf(")", 1));
-            if ( term in cacheBarang ) {
-                response( cacheBarang[ term ] );
-                return;
-            }
-
-            $.getJSON( "${baseURL}barang.json", request, function( data, status, xhr ) {
-                cacheBarang[ term ] = data;
-                response( data );
-            });
+function refreshautocompletebarang(isbeginner) {
+    $('#kodebarang').textext({
+        plugins : 'prompt autocomplete ajax',
+        prompt  : 'Kode Barang',
+        ajax : {
+            url : '${baseURL}barang.json',
+            dataType : 'json'
         },
-        select: function( event, ui ) {
-            var tmp = ui.item.value;
-            var tmp2 = tmp.indexOf(")", 1);
-            var kode = tmp.substring(1, tmp2);
-            var nama = tmp.substring(tmp2 + 2);
-            $("#kodebarang_text").html(kode);
-            $("#kodebarang").val(kode);
-            $("#namabarang").val(nama);
-            return false;
+        ext: {
+            core: {
+                trigger: function() {
+                    if (arguments[0]=='setInputData') {
+                        if (arguments[1].length>0) {
+                            if (arguments[1].substr(0,1) == '(') {
+                                strdata = arguments[1].substr(1);
+                                posisitutupkurung = 0;
+                                lengthstr = strdata.length;
+                                i = 0;
+                                ketemu = false;
+                                while (!ketemu && i<lengthstr) {
+                                    str1kata = strdata.substr(i,1);
+                                    if (str1kata == ')') {
+                                        ketemu = true;
+                                    } else {
+                                        i++;
+                                    }
+                                }
+                                kodee = strdata.substr(0,i);
+
+                                parentelement = this.input().parent().parent().parent().parent().parent().children().last();
+                                parentelement.children().children().eq(1).find('textarea#namabarang').val(strdata.substr(i+2));
+                                parentelement.children().children().eq(1).find('.text-prompt').remove();
+                                parentelement.children().children().eq(1).find('input[name="namabarang"]').val(strdata.substr(i+2));
+
+                                parentelement.children().children().eq(0).find('input[name="kodebarang"]').val(kodee);
+
+                            }
+                        }
+                    }
+                    if (arguments[0]=='hideDropdown') {
+                        parentelement = this.input().parent().parent().parent().parent().parent().children().last();
+                        valueeee = parentelement.children().children().eq(0).find('input[name="kodebarang"]').val();
+                        if (valueeee.length>0) {
+                            parentelement.children().children().eq(0).find('textarea#kodebarang').val(valueeee);
+                        }
+                    }
+                    $.fn.textext.TextExt.prototype.trigger.apply(this, arguments);
+                }
+            }
+        }
+    });
+    $('#namabarang').textext({
+        plugins : 'prompt autocomplete ajax',
+        prompt  : 'Nama Barang',
+        ajax : {
+            url : '${baseURL}barang.json',
+            dataType : 'json'
+        },
+        ext: {
+            core: {
+                trigger: function() {
+                    if (arguments[0]=='setInputData') {
+                        if (arguments[1].length>0) {
+                            if (arguments[1].substr(0,1) == '(') {
+                                strdata = arguments[1].substr(1);
+                                posisitutupkurung = 0;
+                                lengthstr = strdata.length;
+                                i = 0;
+                                ketemu = false;
+                                while (!ketemu && i<lengthstr) {
+                                    str1kata = strdata.substr(i,1);
+                                    if (str1kata == ')') {
+                                        ketemu = true;
+                                    } else {
+                                        i++;
+                                    }
+                                }
+                                kodee = strdata.substr(0,i);
+
+                                parentelement = this.input().parent().parent().parent().parent().parent().children().last();
+
+                                parentelement.children().children().eq(1).find('input[name="namabarang"]').val(strdata.substr(i+2));
+
+                                parentelement.children().children().eq(0).find('input[name="kodebarang"]').val(kodee);
+                                parentelement.children().children().eq(0).find('textarea#kodebarang').val(kodee);
+                                parentelement.children().children().eq(0).find('.text-prompt').remove();
+
+                            }
+                        }
+                    }
+                    if (arguments[0]=='hideDropdown') {
+                        parentelement = this.input().parent().parent().parent().parent().parent().children().last();
+                        valueeee = parentelement.children().children().eq(1).find('input[name="namabarang"]').val();
+                        if (valueeee.length>0) {
+                            parentelement.children().children().eq(1).find('textarea#namabarang').val(valueeee);
+                        }
+                    }
+                    $.fn.textext.TextExt.prototype.trigger.apply(this, arguments);
+                }
+            }
         }
     });
 }
@@ -264,40 +337,24 @@ $( document ).ready(function() {
         },
         dateFormat: 'dd/mm/yy'
     });
-    var cachePelanggan = {};
-    $('#pelanggan').autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
-            var term = request.term;
-            if (term[0] == "(" && term.indexOf(")", 1) != -1)
-                request.term = term = term.substring(1, term.indexOf(")", 1));
-            if ( term in cachePelanggan ) {
-                response( cachePelanggan[ term ] );
-                return;
-            }
-
-            $.getJSON( "${baseURL}pelanggan.json", request, function( data, status, xhr ) {
-                cachePelanggan[ term ] = data;
-                response( data );
-            });
+    $('#pelanggan').textext({
+        plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
+        <c:if test="${empty dataEdit}">
+        prompt  : 'Pelanggan',
+        </c:if>
+        ajax : {
+            url : '${baseURL}pelanggan.json',
+            dataType : 'json'
         }
     });
-    var cachePegawai = {};
-    $('#pegawai').autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
-            var term = request.term;
-            if (term[0] == "(" && term.indexOf(")", 1) != -1)
-                request.term = term = term.substring(1, term.indexOf(")", 1));
-            if ( term in cachePegawai ) {
-                response( cachePegawai[ term ] );
-                return;
-            }
-
-            $.getJSON( "${baseURL}pegawai.json", request, function( data, status, xhr ) {
-                cachePegawai[ term ] = data;
-                response( data );
-            });
+    $('#pegawai').textext({
+        plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
+        <c:if test="${empty dataEdit}">
+        prompt  : 'Pegawai',
+        </c:if>
+        ajax : {
+            url : '${baseURL}pegawai.json',
+            dataType : 'json'
         }
     });
     $('#btnTambahBarang').click(function(e) {
@@ -307,8 +364,8 @@ $( document ).ready(function() {
         $('#tbodyitem').children().last().children().eq(1).html(elmenttvall+'<input type="hidden" name="namabarang" value="'+elmenttvall+'">');
 
         komponen = '<tr>'
-             +'<td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>'
-             +'<td><input type="text" class="form-control" id="namabarang" name="namabarang"></td>'
+             +'<td><textarea id="kodebarang" name="kodebarang" rows="1"></textarea></td>'
+             +'<td><textarea id="namabarang" name="namabarang" rows="1"></textarea></td>'
              +'<td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>'
              +'<td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>'
              +'<td><input type="text" class="form-control numberfilter diskon" value="0" name="diskon" style="text-align: right;"/></td>'
@@ -321,6 +378,11 @@ $( document ).ready(function() {
     });
     $('body').on('click','.btdeleteitem',function(){
         $(this).parent().parent().remove();
+    });
+    jQuery('textarea').keydown(function(event) {
+        if (event.keyCode == 13) {
+            $('.form-horizontal').submit();
+        }
     });
 
     refreshautocompletebarang();

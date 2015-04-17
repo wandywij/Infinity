@@ -90,7 +90,6 @@
 		</form>
 	</div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
 function makereadonly(elementtt) {
 	elementtt.attr('readonly',true);
@@ -289,3 +288,4 @@ ext: {
     </c:if>
 });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

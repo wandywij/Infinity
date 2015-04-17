@@ -63,7 +63,6 @@
 		</form>
 	</div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
 function makereadonly(elementtt) {
 	elementtt.attr('readonly',true);
@@ -200,3 +199,4 @@ makereadonly($('#no_retur_pembelian'));
     </c:if>
 });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

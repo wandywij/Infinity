@@ -28,17 +28,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class mainController {
     @RequestMapping(value="/", method = RequestMethod.GET)
-    public String index() {              
+    public String index() {
         return "redirect:/penjualan";
     }
-    
+
     @RequestMapping(value="supplier.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletesupplier(HttpServletRequest request ) {
         String q = request.getParameter("q");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(supplier.class);
-        criteria.add(Restrictions.or( Restrictions.like("kode_supplier", q+"%").ignoreCase() 
+        criteria.add(Restrictions.or( Restrictions.like("kode_supplier", q+"%").ignoreCase()
                 ,Restrictions.like("nama_supplier", q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
@@ -47,20 +47,20 @@ public class mainController {
                 jsonArrayy.put("("+sp.getKode_supplier()+") "+ sp.getNama_supplier());
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();
     }
-    
+
     @RequestMapping(value="pegawai.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePegawai(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(pegawai.class);
-        criteria.add(Restrictions.or( Restrictions.like("id_pegawai", q+"%").ignoreCase() 
-                ,Restrictions.like("nama_pegawai", q+"%").ignoreCase() ));
+        criteria.add(Restrictions.or( Restrictions.like("id_pegawai", "%"+q+"%").ignoreCase()
+                ,Restrictions.like("nama_pegawai", "%"+q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<pegawai> lpegawai = criteria.list();
@@ -68,19 +68,19 @@ public class mainController {
                 jsonArrayy.put("("+pg.getId_pegawai()+") "+ pg.getNama_pegawai() );
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();
     }
-    
+
     @RequestMapping(value="barang.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompleteBarang(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(barang.class);
-        criteria.add(Restrictions.or( Restrictions.like("kode_barang", q+"%").ignoreCase() 
+        criteria.add(Restrictions.or( Restrictions.like("kode_barang", q+"%").ignoreCase()
                 ,Restrictions.like("nama_barang", q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
@@ -89,12 +89,12 @@ public class mainController {
                 jsonArrayy.put("("+bg.getKode_barang()+") "+ bg.getNama_barang()) ;
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();
     }
-    
+
     @RequestMapping(value="po.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePurchaseORder(HttpServletRequest request ) {
@@ -109,20 +109,20 @@ public class mainController {
                 jsonArrayy.put(po.getNo_po()) ;
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();
     }
-    
+
     @RequestMapping(value="pelanggan.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePelangganORder(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
-        Criteria criteria = session.createCriteria( pelanggan.class);        
-        criteria.add(Restrictions.or( Restrictions.like("kode_pelanggan", q+"%").ignoreCase() 
-                ,Restrictions.like("nama_pelanggan", q+"%").ignoreCase() ));
+        Criteria criteria = session.createCriteria( pelanggan.class);
+        criteria.add(Restrictions.or( Restrictions.like("kode_pelanggan", "%"+q+"%").ignoreCase()
+                ,Restrictions.like("nama_pelanggan", "%"+q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<pelanggan> lbarang = criteria.list();
@@ -130,19 +130,19 @@ public class mainController {
                 jsonArrayy.put("("+pl.getKode_pelanggan()+") "+ pl.getNama_pelanggan() );
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();
     }
-    
-    
+
+
     @RequestMapping(value="penjualan.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePenjualanORder(HttpServletRequest request ) {
         String q = request.getParameter("q");
         Session session = hibernateUtil.getSessionFactory().openSession();
-        Criteria criteria = session.createCriteria( penjualan.class);        
+        Criteria criteria = session.createCriteria( penjualan.class);
         criteria.add(Restrictions.like("no_faktur", q+"%").ignoreCase());
         JSONArray jsonArrayy = new JSONArray();
         try {
@@ -151,7 +151,7 @@ public class mainController {
                 jsonArrayy.put(pl.getNo_faktur());
             }
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jsonArrayy.toString();

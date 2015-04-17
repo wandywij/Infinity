@@ -6,7 +6,6 @@
     Author     : ade
 --%>
 <%@include file="/WEB-INF/layout/header.jsp" %>
-<!DOCTYPE html>
 
 <div class="row">
     <div class="col-xs-6">
@@ -72,7 +71,6 @@
     </div>
 </div>
 
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
     function addCommas(sValue)
     {
@@ -119,3 +117,4 @@
             dateFormat: 'dd/mm/yy'
         });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

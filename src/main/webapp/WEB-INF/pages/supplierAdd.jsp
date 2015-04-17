@@ -57,7 +57,6 @@
 		</form>
 	</div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
 function makereadonly(elementtt) {
 	elementtt.attr('readonly',true);
@@ -122,3 +121,4 @@ makereadonly($('#nomor_supplier'));
     });
 });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

@@ -63,7 +63,6 @@
 		</form>
 	</div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
 function makereadonly(elementtt) {
 	elementtt.attr('readonly',true);
@@ -134,3 +133,4 @@ makereadonly($('#id_pegawai'));
     });
 });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

@@ -6,7 +6,6 @@
     Author     : ade
 --%>
 <%@include file="/WEB-INF/layout/header.jsp" %>
-<!DOCTYPE html>
 <div class="row">
 	<div class="col-xs-8">
 		<h1>Klaim Garansi</h1>
@@ -59,7 +58,6 @@
 		</table>
 	</div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
 function addCommas( sValue ) 
 {
@@ -92,3 +90,4 @@ $( document ).ready(function() {
     });
 });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>

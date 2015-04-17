@@ -92,7 +92,6 @@
         </form>
     </div>
 </div>
-<%@include file="/WEB-INF/layout/footer.jsp" %>
 <script>
     function addCommas(sValue)
     {
@@ -139,3 +138,4 @@
         });
     });
 </script>
+<%@include file="/WEB-INF/layout/footer.jsp" %>
