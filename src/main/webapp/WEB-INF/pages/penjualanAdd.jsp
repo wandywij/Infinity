@@ -24,21 +24,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="nama" class="col-xs-2 control-label">Tanggal</label>
+                <label for="tanggal" class="col-xs-2 control-label">Tanggal</label>
                 <div class="col-xs-10">
-                    <p><input type="text" class="form-control" id="tanggal" name="tanggal" style="width:130px" placeholder="Tanggal"<c:if test="${!empty dataEdit}"> value="${dataEdit.tanggal}"</c:if>></p>
+                    <input type="text" class="form-control" id="tanggal" name="tanggal" style="width:130px" placeholder="Tanggal"<c:if test="${!empty dataEdit}"> value="${dataEdit.tanggal}"</c:if>>
                 </div>
             </div>
             <div class="form-group">
-                <label for="alamat" class="col-xs-2 control-label">Pelanggan</label>
+                <label for="pelanggan" class="col-xs-2 control-label">Pelanggan</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="pelanggan" name="pelanggan"<c:if test="${!empty dataEdit}"> value="${dataEdit.pelanggan}"</c:if>>
+                    <input type="text" class="form-control" id="pelanggan" name="pelanggan" placeholder="Pelanggan"<c:if test="${!empty dataEdit}"> value="${dataEdit.pelanggan}"</c:if>>
                 </div>
             </div>
             <div class="form-group">
-                <label for="alamat" class="col-xs-2 control-label">Pegawai</label>
+                <label for="pegawai" class="col-xs-2 control-label">Pegawai</label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="pegawai" name="pegawai"<c:if test="${!empty dataEdit}"> value="${dataEdit.pegawai}"</c:if>>
+                    <input type="text" class="form-control" id="pegawai" name="pegawai" placeholder="Pegawai"<c:if test="${!empty dataEdit}"> value="${dataEdit.pegawai}"</c:if>>
                 </div>
             </div>
             <br/><br/>
@@ -88,7 +88,7 @@
                             <c:if test="${empty isDetail}">
 				<tr>
                                     <td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>
-					<td><input type="text" class="form-control" id="namabarang" name="namabarang"></td>
+					<td><input type="text" class="form-control" id="namabarang" name="namabarang" placeholder="Barang"></td>
 					<td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>
                                         <td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>
                                         <td><input type="text" class="form-control numberfilter diskon" name="diskon" value="0" style="text-align: right;"/></td>
@@ -308,7 +308,7 @@ $( document ).ready(function() {
 
         komponen = '<tr>'
              +'<td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>'
-             +'<td><input type="text" class="form-control" id="namabarang" name="namabarang"></td>'
+             +'<td><input type="text" class="form-control" id="namabarang" name="namabarang" placeholder="Barang"></td>'
              +'<td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>'
              +'<td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>'
              +'<td><input type="text" class="form-control numberfilter diskon" value="0" name="diskon" style="text-align: right;"/></td>'

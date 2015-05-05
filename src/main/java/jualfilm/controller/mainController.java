@@ -80,8 +80,8 @@ public class mainController {
         String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(barang.class);
-        criteria.add(Restrictions.or( Restrictions.like("kode_barang", q+"%").ignoreCase()
-                ,Restrictions.like("nama_barang", q+"%").ignoreCase() ));
+        criteria.add(Restrictions.or( Restrictions.like("kode_barang", "%"+q+"%").ignoreCase()
+                ,Restrictions.like("nama_barang", "%"+q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<barang> lbarang = criteria.list();
@@ -140,10 +140,10 @@ public class mainController {
     @RequestMapping(value="penjualan.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePenjualanORder(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria( penjualan.class);
-        criteria.add(Restrictions.like("no_faktur", q+"%").ignoreCase());
+        criteria.add(Restrictions.like("no_faktur", "%"+q+"%").ignoreCase());
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<penjualan> lbarang = criteria.list();

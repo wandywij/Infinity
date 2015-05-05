@@ -46,7 +46,7 @@ import org.json.JSONObject;
 @Controller
 public class returPenjualanController {
     @RequestMapping(value="retur-penjualan", method = RequestMethod.GET)
-    public String dataList(ModelMap model) {      
+    public String dataList(ModelMap model) {
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(retur_penjualan.class);
         List<retur_penjualan> lreturPenjualan = criteria.list();
@@ -60,33 +60,33 @@ public class returPenjualanController {
             try {
                 mapData.put("pegawai", "("+ rpp.getId_pegawai().getId_pegawai()+") "+ rpp.getId_pegawai().getNama_pegawai());
             } catch (Exception ex) {
-                
+
             }
             try {
                 mapData.put("pelanggan", "("+ rpp.getKode_pelanggan().getKode_pelanggan()+") "+ rpp.getKode_pelanggan().getNama_pelanggan());
             } catch (Exception ex) {
-                
+
             }
 //            try {
 //                mapData.put("barang", "("+ rpp.getKode_barang().getKode_barang()+") "+ rpp.getKode_barang().getNama_barang());
 //            } catch (Exception ex) {
-//                
+//
 //            }
             mapData.put("jumlah", rpp.getJumlah());
             showData.add(mapData);
         }
-        
+
         model.addAttribute("dataList", showData);
         session.close();
         return "returPenjualanList";
     }
-    
+
     @RequestMapping(value="retur-penjualan/laporan", method = RequestMethod.GET)
-    public String dataList2(ModelMap model, HttpServletRequest req) {      
+    public String dataList2(ModelMap model, HttpServletRequest req) {
         Session session = hibernateUtil.getSessionFactory().openSession();
-        Criteria criteria = session.createCriteria(retur_penjualan.class);      
+        Criteria criteria = session.createCriteria(retur_penjualan.class);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        try {       	
+        try {
         	if (req.getParameter("from") != null && req.getParameter("to") != null) {
         		Timestamp starDate = new Timestamp( df.parse(req.getParameter("from")+" 00:00:00").getTime() );
         		Timestamp toDate = new Timestamp(df.parse(req.getParameter("to")+" 59:59:59").getTime());
@@ -94,7 +94,7 @@ public class returPenjualanController {
         		model.addAttribute("startDate", req.getParameter("from"));
         		model.addAttribute("endDate", req.getParameter("to"));
         	}
-        	
+
         } catch (Exception ex) {
         	System.out.println(" err dataLaporanList "+ex.getMessage());
         }
@@ -110,21 +110,21 @@ public class returPenjualanController {
             try {
                 mapData.put("pegawai", "("+ rpp.getId_pegawai().getId_pegawai()+") "+ rpp.getId_pegawai().getNama_pegawai());
             } catch (Exception ex) {
-                
+
             }
             try {
                 mapData.put("pelanggan", "("+ rpp.getKode_pelanggan().getKode_pelanggan()+") "+ rpp.getKode_pelanggan().getNama_pelanggan());
             } catch (Exception ex) {
-                
-            }           
+
+            }
             showData.add(mapData);
         }
-        
+
         model.addAttribute("dataList", showData);
         session.close();
         return "returPenjualanLaporan";
     }
-    
+
     @RequestMapping(value="retur-penjualan/delete", method = RequestMethod.GET)
     public String dataAdd(ModelMap model, HttpServletRequest request) {
         String kodesupplier = request.getParameter("kode");
@@ -138,11 +138,11 @@ public class returPenjualanController {
         session.close();
         return "redirect:/retur-penjualan";
     }
-    
+
     @RequestMapping(value="retur-penjualan/add", method = RequestMethod.GET)
-    public String dataAdd(ModelMap model) {  
+    public String dataAdd(ModelMap model) {
         model.addAttribute("headerapps", "Retur Penjualan Baru");
-        
+
         Map mapDAta = new HashMap();
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(retur_penjualan.class).setProjection(Projections.property("id"));
@@ -159,10 +159,10 @@ public class returPenjualanController {
         mapDAta.put("no_returpenjualan", kodedata);
         model.addAttribute("dataEdit", mapDAta);
         session.close();
-        
+
         return "returPenjualanAdd";
     }
-    
+
     @RequestMapping(value="retur-penjualan/add", method = RequestMethod.POST)
     public String DOdataAdd(ModelMap model, HttpServletRequest request ) {
         String no_returpenjualan = request.getParameter("no_returpenjualan");
@@ -172,31 +172,30 @@ public class returPenjualanController {
         if (jumlah.length()>0) {
             jumlah = jumlah.replace(".", "");
         }
-        String nama_barang = request.getParameter("nama_barang");
-        
+
         if (no_faktur != null ) {
             if (no_faktur.length() > 0 ) {
                 char ch = (char)34;
                 String komponen = String.valueOf(ch);
-                
+
                 if (no_faktur.substring(0,1).equals("\"")) {
                     no_faktur = no_faktur.substring(1);
                 }
-                
+
                 if (no_faktur.substring(no_faktur.length()-1).equals("\"")) {
                     no_faktur = no_faktur.substring(0,no_faktur.length()-1);
                 }
-                
+
             }
         }
-        
+
         String pegawai = request.getParameter("pegawai");
         if (pegawai != null ) {
             if (pegawai.length() > 0 ) {
                 pegawai = pegawai.substring((pegawai.indexOf("(")+1),pegawai.indexOf(")"));
             }
         }
-        
+
         String pelanggan = request.getParameter("pelanggan");
         if (pelanggan != null ) {
             if (pelanggan.length() > 0 ) {
@@ -204,45 +203,47 @@ public class returPenjualanController {
             }
         }
         String kode_barang = request.getParameter("kode_barang");
+        String nama_barang = "";
         if (kode_barang != null ) {
             if (kode_barang.length() > 0 ) {
                 kode_barang = kode_barang.substring((kode_barang.indexOf("(")+1),kode_barang.indexOf(")"));
+                nama_barang = kode_barang.substring((kode_barang.indexOf(")")+2));
             }
         }
-        
+
         Session session = hibernateUtil.getSessionFactory().openSession();
         Transaction trx = session.beginTransaction();
-        
+
         retur_penjualan rpp = new retur_penjualan();
-        
+
         pegawai pegawaiIn = new pegawai();
         Criteria criteria = session.createCriteria(pegawai.class);
         criteria.add(Restrictions.eq("id_pegawai", pegawai));
         if ( criteria .uniqueResult() != null) {
             pegawaiIn = (pegawai) criteria .uniqueResult();
         }
-        
+
         pelanggan pelangganIn = new pelanggan();
         criteria = session.createCriteria(pelanggan.class);
         criteria.add(Restrictions.eq("kode_pelanggan", pelanggan));
         if ( criteria .uniqueResult() != null) {
         	pelangganIn = (pelanggan) criteria .uniqueResult();
         }
-        
+
         barang barangIn = new barang();
         criteria = session.createCriteria(barang.class);
         criteria.add(Restrictions.eq("kode_barang", kode_barang));
         if ( criteria .uniqueResult() != null) {
             barangIn = (barang) criteria .uniqueResult();
         }
-        
+
         penjualan penjualanIn = new penjualan();
         criteria = session.createCriteria(penjualan.class);
         criteria.add(Restrictions.eq("no_faktur", no_faktur));
         if ( criteria .uniqueResult() != null) {
         	penjualanIn = (penjualan) criteria .uniqueResult();
         }
-        
+
         rpp.setId_pegawai(pegawaiIn);
         rpp.setKode_barang(barangIn);
         rpp.setKode_pelanggan(pelangganIn);
@@ -252,23 +253,23 @@ public class returPenjualanController {
         try {
             rpp.setJumlah(Long.valueOf(jumlah));
         } catch (Exception ex) {
-            
+
         }
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             rpp.setTanggal(new Timestamp(df.parse(tanggal).getTime()));
         } catch (Exception ex) {
-            
+
         }
-        
+
         session.save(rpp);
         trx.commit();
         session.close();
-        
+
         return "redirect:/retur-penjualan";
     }
-    
-    
+
+
     @RequestMapping(value="retur-penjualan/validation", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
     @ResponseBody
     public String ValidationdataAdd(ModelMap model, HttpServletRequest request ) {
@@ -276,15 +277,15 @@ public class returPenjualanController {
         int cansaved = 1;
         JSONObject jobj = new JSONObject();
         String kodesupplier = request.getParameter("no_returpenjualan");
-        
-        
+
+
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(retur_penjualan.class).setProjection(Projections.rowCount());
         if ( request.getParameter("no_returpenjualan1") != null ) {
             criteria.add(Restrictions.ne("no_returpenjualan", request.getParameter("no_returpenjualan1").toString() ));
         }
         criteria.add(Restrictions.eq("no_returpenjualan", kodesupplier ));
-        
+
         if (Integer.valueOf(criteria.uniqueResult().toString()) > 0 ){
             cansaved = 0;
             msg = "Kode "+kodesupplier+" telah digunakan oleh Retur Penjualan lain";
@@ -293,12 +294,12 @@ public class returPenjualanController {
             jobj.put("msg", msg);
             jobj.put("cansaved", cansaved);
         } catch (Exception ex) {
-            
+
         }
         session.close();
         return jobj.toString();
     }
-    
+
     @RequestMapping(value="retur-penjualan/edit", method = RequestMethod.GET)
     public String dataEdit(ModelMap model, HttpServletRequest request ) {
         String returndata = "redirect:/retur-penjualan";
@@ -317,19 +318,18 @@ public class returPenjualanController {
             try {
                 modelData.put("pegawai", "("+ rpe.getId_pegawai().getId_pegawai()+") "+ rpe.getId_pegawai().getNama_pegawai());
             } catch (Exception ex) {
-                
+
             }
             try {
                 modelData.put("pelanggan", "("+ rpe.getKode_pelanggan().getKode_pelanggan()+") "+ rpe.getKode_pelanggan().getNama_pelanggan());
             } catch (Exception ex) {
-                
+
             }
             try {
                 modelData.put("kode_barang", "("+ rpe.getKode_barang().getKode_barang()+") "+ rpe.getKode_barang().getNama_barang());
             } catch (Exception ex) {
                 System.out.println(" error "+ex.getMessage());
             }
-            modelData.put("nama_barang", rpe.getNama_barang());
             modelData.put("jumlah", rpe.getJumlah());
             model.addAttribute("dataEdit", modelData);
             returndata = "returPenjualanAdd";
@@ -338,9 +338,9 @@ public class returPenjualanController {
         model.addAttribute("headerapps", "Edit Retur Penjualan");
         return returndata;
     }
-    
+
     @RequestMapping(value="retur-penjualan/edit", method = RequestMethod.POST)
-    public String DOdataEdit(ModelMap model, HttpServletRequest request ) {        
+    public String DOdataEdit(ModelMap model, HttpServletRequest request ) {
         String returndata = "redirect:/retur-penjualan";
         String no_returpenjualan = request.getParameter("no_returpenjualan");
         String no_returpenjualan1 = request.getParameter("no_returpenjualan1");
@@ -352,30 +352,30 @@ public class returPenjualanController {
             jumlah = jumlah.replace(".", "");
         }
         String nama_barang = request.getParameter("nama_barang");
-        
+
         if (no_faktur != null ) {
             if (no_faktur.length() > 0 ) {
                 char ch = (char)34;
                 String komponen = String.valueOf(ch);
-                
+
                 if (no_faktur.substring(0,1).equals("\"")) {
                     no_faktur = no_faktur.substring(1);
                 }
-                
+
                 if (no_faktur.substring(no_faktur.length()-1).equals("\"")) {
                     no_faktur = no_faktur.substring(0,no_faktur.length()-1);
                 }
-                
+
             }
         }
-        
+
         String pegawai = request.getParameter("pegawai");
         if (pegawai != null ) {
             if (pegawai.length() > 0 ) {
                 pegawai = pegawai.substring((pegawai.indexOf("(")+1),pegawai.indexOf(")"));
             }
         }
-        
+
         String pelanggan = request.getParameter("pelanggan");
         if (pelanggan != null ) {
             if (pelanggan.length() > 0 ) {
@@ -388,43 +388,43 @@ public class returPenjualanController {
                 kode_barang = kode_barang.substring((kode_barang.indexOf("(")+1),kode_barang.indexOf(")"));
             }
         }
-        
-        
+
+
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(retur_penjualan.class);
         criteria.add(Restrictions.eq("no_returpenjualan", no_returpenjualan1 ));
-        if (criteria.uniqueResult() != null) {        
+        if (criteria.uniqueResult() != null) {
             Transaction trx = session.beginTransaction();
             retur_penjualan rpp = (retur_penjualan) criteria.uniqueResult();
-            
+
             pegawai pegawaiIn = new pegawai();
             criteria = session.createCriteria(pegawai.class);
             criteria.add(Restrictions.eq("id_pegawai", pegawai));
             if ( criteria .uniqueResult() != null) {
                 pegawaiIn = (pegawai) criteria .uniqueResult();
             }
-            
+
             pelanggan pelangganIn = new pelanggan();
             criteria = session.createCriteria(pelanggan.class);
             criteria.add(Restrictions.eq("kode_pelanggan", pelanggan));
             if ( criteria .uniqueResult() != null) {
             	pelangganIn = (pelanggan) criteria .uniqueResult();
             }
-            
+
             barang barangIn = new barang();
             criteria = session.createCriteria(barang.class);
             criteria.add(Restrictions.eq("kode_barang", kode_barang));
             if ( criteria .uniqueResult() != null) {
                 barangIn = (barang) criteria .uniqueResult();
             }
-            
+
             penjualan penjualanIn = new penjualan();
             criteria = session.createCriteria(penjualan.class);
             criteria.add(Restrictions.eq("no_faktur", no_faktur));
             if ( criteria .uniqueResult() != null) {
             	penjualanIn = (penjualan) criteria .uniqueResult();
             }
-            
+
             rpp.setId_pegawai(pegawaiIn);
             rpp.setKode_barang(barangIn);
             rpp.setKode_pelanggan(pelangganIn);
@@ -442,9 +442,9 @@ public class returPenjualanController {
             } catch (Exception ex) {
 
             }
-            
+
             session.update(rpp);
-            
+
             if (!no_returpenjualan1.equalsIgnoreCase(no_returpenjualan)) {
                 String sql = "update retur_penjualan set no_returpenjualan=:kode where no_returpenjualan=:kode1";
                 session.createQuery(sql).setParameter("kode", no_returpenjualan)
@@ -452,13 +452,13 @@ public class returPenjualanController {
             }
             trx.commit();
         }
-        
+
         session.close();
         return returndata;
     }
-       
+
     @RequestMapping(value="retur-penjualan/one-detail/{kode}", method = RequestMethod.GET)
-    public String dataEditREturPenjualan(ModelMap model, HttpServletRequest request , 
+    public String dataEditREturPenjualan(ModelMap model, HttpServletRequest request ,
             @PathVariable(value="kode") String kode) {
         String returndata = "redirect:/retur-penjualan";
         Session session = hibernateUtil.getSessionFactory().openSession();
@@ -475,12 +475,12 @@ public class returPenjualanController {
             try {
                 modelData.put("pegawai", "("+ rpe.getId_pegawai().getId_pegawai()+") "+ rpe.getId_pegawai().getNama_pegawai());
             } catch (Exception ex) {
-                
+
             }
             try {
                 modelData.put("pelanggan", "("+ rpe.getKode_pelanggan().getKode_pelanggan()+") "+ rpe.getKode_pelanggan().getNama_pelanggan());
             } catch (Exception ex) {
-                
+
             }
             try {
                 modelData.put("kode_barang", "("+ rpe.getKode_barang().getKode_barang()+") "+ rpe.getKode_barang().getNama_barang());
