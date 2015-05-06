@@ -35,11 +35,11 @@ public class mainController {
     @RequestMapping(value="supplier.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletesupplier(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(supplier.class);
-        criteria.add(Restrictions.or( Restrictions.like("kode_supplier", q+"%").ignoreCase()
-                ,Restrictions.like("nama_supplier", q+"%").ignoreCase() ));
+        criteria.add(Restrictions.or( Restrictions.like("kode_supplier", "%"+q+"%").ignoreCase()
+                ,Restrictions.like("nama_supplier", "%"+q+"%").ignoreCase() ));
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<supplier> lsuplier = criteria.list();
@@ -98,10 +98,10 @@ public class mainController {
     @RequestMapping(value="po.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
     @ResponseBody
     public String autocompletePurchaseORder(HttpServletRequest request ) {
-        String q = request.getParameter("q");
+        String q = request.getParameter("term");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria( purchase_order.class);
-        criteria.add(Restrictions.like("no_po", q+"%").ignoreCase());
+        criteria.add(Restrictions.like("no_po", "%"+q+"%").ignoreCase());
         JSONArray jsonArrayy = new JSONArray();
         try {
             List<purchase_order> lbarang = criteria.list();

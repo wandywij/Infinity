@@ -1,85 +1,85 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/konfig/konfig.jsp" %>
-<%-- 
+<%--
     Document   : supplierTambah
     Created on : Mar 14, 2015, 3:34:56 PM
     Author     : ade
 --%>
 <%@include file="/WEB-INF/layout/header.jsp" %>
 <div class="row">
-	<div class="col-xs-12">
-		<h1>${headerapps}</h1>
-	</div>
+    <div class="col-xs-12">
+        <h1>${headerapps}</h1>
+    </div>
 </div>
 
 <div class="row">
-	<div class="col-xs-12">
-            <form class="form-horizontal" method="post">
-                <div class="form-group" id="msg" style="background-color:yellow;text-align:center;display:none"></div>
-			<div class="form-group">
-				<label for="nomor_supplier" class="col-xs-2 control-label">Nomer Retur Pembelian</label>
-				<div class="col-xs-10">
-                                    <input type="text" class="form-control" name="no_retur_pembelian" id="no_retur_pembelian" placeholder="Nomer Retur Pembelian"<c:if test="${!empty dataEdit}"> value="${dataEdit.no_retur_pembelian}"</c:if>>
-                                    <c:if test="${!empty dataEdit}"><input type="hidden" name="no_retur_pembelian1" value="${dataEdit.no_retur_pembelian}"></c:if>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="nama" class="col-xs-2 control-label">Tanggal</label>
-				<div class="col-xs-10">
-					<p><input type="text" class="form-control" id="tanggal" name="tanggal" style="width:130px" placeholder="Tanggal"<c:if test="${!empty dataEdit}"> value="${dataEdit.tanggal}"</c:if>></p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="alamat" class="col-xs-2 control-label">No. Purchase Order</label>
-				<div class="col-xs-10">
-                                    <textarea id="no_po" name="no_po" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.no_po}</c:if></textarea>
-				</div>
-			</div>
-                        <div class="form-group">
-				<label for="alamat" class="col-xs-2 control-label">Pegawai</label>
-				<div class="col-xs-10">
-                                    <textarea id="pegawai" name="pegawai" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.pegawai}</c:if></textarea>
-				</div>
-			</div>
-                        <div class="form-group">
-				<label for="alamat" class="col-xs-2 control-label">Supplier</label>
-				<div class="col-xs-10">
-                                    <textarea id="supplier" name="supplier" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.supplier}</c:if></textarea>
-				</div>
-			</div>
-                        <div class="form-group">
-				<label for="alamat" class="col-xs-2 control-label">Kode Barang</label>
-				<div class="col-xs-10">
-                                    <textarea id="kode_barang" name="kode_barang" rows="1"><c:if test="${!empty dataEdit}">${dataEdit.kode_barang}</c:if></textarea>
-				</div>
-			</div>
-			<c:if test="${empty isDetail}">
-                        <div class="form-group">
-				<div class="col-xs-offset-2 col-xs-10">
-					<button type="submit" class="btn btn-success">Submit</button>
-				</div>
-			</div>
-			</c:if>
-		</form>
-	</div>
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="post">
+            <div class="form-group" id="msg" style="background-color:yellow;text-align:center;display:none"></div>
+            <div class="form-group">
+                <label for="no_retur_pembelian" class="col-xs-2 control-label">Nomer Retur Pembelian</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" name="no_retur_pembelian" id="no_retur_pembelian" placeholder="Nomer Retur Pembelian"<c:if test="${!empty dataEdit}"> value="${dataEdit.no_retur_pembelian}"</c:if>>
+                    <c:if test="${!empty dataEdit}"><input type="hidden" name="no_retur_pembelian1" value="${dataEdit.no_retur_pembelian}"></c:if>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tanggal" class="col-xs-2 control-label">Tanggal</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="tanggal" name="tanggal" style="width:130px" placeholder="Tanggal"<c:if test="${!empty dataEdit}"> value="${dataEdit.tanggal}"</c:if>>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="no_po" class="col-xs-2 control-label">No. Purchase Order</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="no_po" name="no_po" placeholder="No. Purchase Order"<c:if test="${!empty dataEdit}"> value="${dataEdit.no_po}"</c:if>>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pegawai" class="col-xs-2 control-label">Pegawai</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="pegawai" name="pegawai" placeholder="Pegawai"<c:if test="${!empty dataEdit}"> value="${dataEdit.pegawai}"</c:if>>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="supplier" class="col-xs-2 control-label">Supplier</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Supplier"<c:if test="${!empty dataEdit}"> value="${dataEdit.supplier}"</c:if>>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="kode_barang" class="col-xs-2 control-label">Barang</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" name="kode_barang" id="kode_barang" placeholder="Barang"<c:if test="${!empty dataEdit}"> value="${dataEdit.kode_barang}"</c:if>>
+                </div>
+            </div>
+            <c:if test="${empty isDetail}">
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-10">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+            </c:if>
+        </form>
+    </div>
 </div>
 <script>
 function makereadonly(elementtt) {
-	elementtt.attr('readonly',true);
-	elementtt.css('background-color','#fff');
-	elementtt.css('border','none');
+    elementtt.attr('readonly',true);
+    elementtt.css('background-color','#fff');
+    elementtt.css('border','none');
 }
 $( document ).ready(function() {
-	<c:if test="${!empty isDetail}">
-	makereadonly($('#tanggal'));
-	makereadonly($('#no_po'));
-	makereadonly($('#pegawai'));
-	makereadonly($('#supplier'));
-	makereadonly($('#kode_barang'));
-</c:if>
-makereadonly($('#no_retur_pembelian'));
+    <c:if test="${!empty isDetail}">
+    makereadonly($('#tanggal'));
+    makereadonly($('#no_po'));
+    makereadonly($('#pegawai'));
+    makereadonly($('#supplier'));
+    makereadonly($('#kode_barang'));
+    </c:if>
+    makereadonly($('#no_retur_pembelian'));
 
-<c:if test="${empty isDetail}">
+    <c:if test="${empty isDetail}">
     $('.form-horizontal').submit(function(e) {
         e.preventDefault();
         var thisform = $(this);
@@ -121,9 +121,8 @@ makereadonly($('#no_retur_pembelian'));
             msg = "Isi Kode Barang";
             elemtt.focus();
         }
-        
+
         if (cansaved) {
-            
             $.post('${baseURL}retur-pembelian/validation', thisform.serialize(),function(data){
                 var jobj = data;
                 if (jobj.cansaved == 1) {
@@ -139,62 +138,84 @@ makereadonly($('#no_retur_pembelian'));
             $('#msg').css('display','block');
         }
     });
-    
-    $('#supplier')
-        .textext({
-            plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
-            <c:if test="${empty dataEdit}">
-            prompt  : 'Supplier',
-            </c:if>
-            ajax : {
-                url : '${baseURL}supplier.json',
-                dataType : 'json'                
+
+    var cacheSupplier = {};
+    $('#supplier').autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+            var term = request.term;
+            if (term[0] == "(" && term.indexOf(")", 1) != -1)
+                request.term = term = term.substring(1, term.indexOf(")", 1));
+            if ( term in cacheSupplier ) {
+                response( cacheSupplier[ term ] );
+                return;
             }
-        });
-    $('#pegawai')
-        .textext({
-            plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
-            <c:if test="${empty dataEdit}">
-            prompt  : 'Pegawai',
-            </c:if>
-            ajax : {
-                url : '${baseURL}pegawai.json',
-                dataType : 'json'                
-            }
-        });
-    $('#kode_barang')
-        .textext({
-            plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
-            <c:if test="${empty dataEdit}">
-            prompt  : 'Kode Barang',
-            </c:if>
-            ajax : {
-                url : '${baseURL}barang.json',
-                dataType : 'json'                
-            }
-        });
-    $('#no_po')
-        .textext({
-            plugins : '<c:if test="${empty dataEdit}">prompt </c:if>autocomplete ajax',
-            <c:if test="${empty dataEdit}">
-            prompt  : 'Kode Purchase Order',
-            </c:if>
-            ajax : {
-                url : '${baseURL}po.json',
-                dataType : 'json'                
-            }
-        });
-        $( "#tanggal" ).datepicker({
-     beforeShow: function(input, inst)
-       {
-          inst.dpDiv.css({marginTop: ($( "#tanggal" ).offset().top-190) + 'px', marginLeft: '0px'});
-       },       
-    dateFormat: 'dd/mm/yy'
+
+            $.getJSON( "${baseURL}supplier.json", request, function( data, status, xhr ) {
+                cacheSupplier[ term ] = data;
+                response( data );
+            });
+        }
     });
-    jQuery('textarea').keydown(function(event) {
-        if (event.keyCode == 13) {
-            $('.form-horizontal').submit();
-         }
+    var cachePegawai = {};
+    $('#pegawai').autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+            var term = request.term;
+            if (term[0] == "(" && term.indexOf(")", 1) != -1)
+                request.term = term = term.substring(1, term.indexOf(")", 1));
+            if ( term in cachePegawai ) {
+                response( cachePegawai[ term ] );
+                return;
+            }
+
+            $.getJSON( "${baseURL}pegawai.json", request, function( data, status, xhr ) {
+                cachePegawai[ term ] = data;
+                response( data );
+            });
+        }
+    });
+    var cacheBarang = {};
+    $('#kode_barang').autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+            var term = request.term;
+            if (term[0] == "(" && term.indexOf(")", 1) != -1)
+                request.term = term = term.substring(1, term.indexOf(")", 1));
+            if ( term in cacheBarang ) {
+                response( cacheBarang[ term ] );
+                return;
+            }
+
+            $.getJSON( "${baseURL}barang.json", request, function( data, status, xhr ) {
+                cacheBarang[ term ] = data;
+                response( data );
+            });
+        }
+    });
+    var cachePo = {};
+    $('#no_po').autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+            var term = request.term;
+            if (term[0] == "(" && term.indexOf(")", 1) != -1)
+                request.term = term = term.substring(1, term.indexOf(")", 1));
+            if ( term in cachePo ) {
+                response( cachePo[ term ] );
+                return;
+            }
+
+            $.getJSON( "${baseURL}po.json", request, function( data, status, xhr ) {
+                cachePo[ term ] = data;
+                response( data );
+            });
+        }
+    });
+    $( "#tanggal" ).datepicker({
+        beforeShow: function(input, inst) {
+            inst.dpDiv.css({marginTop: ($( "#tanggal" ).offset().top-190) + 'px', marginLeft: '0px'});
+        },
+        dateFormat: 'dd/mm/yy'
     });
     </c:if>
 });

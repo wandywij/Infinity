@@ -47,13 +47,14 @@
                 <div class="col-xs-12">
                     <table class="table">
 			<colgroup>
-                            <col width="210" />
-                            <col width="220" />
-                            <col width="70" />
-                            <col width="40" />
-                            <col width="40" />
-                            <col width="40" /><c:if test="${empty isDetail}">
-                            <col width="40" />
+                            <col width="140" />
+                            <col />
+                            <col width="100" />
+                            <col width="100" />
+                            <col width="100" />
+                            <col width="100" />
+                            <c:if test="${empty isDetail}">
+                            <col width="100" />
                             </c:if>
 			</colgroup>
 			<thead>
@@ -70,38 +71,39 @@
                             </tr>
 			</thead>
 			<tbody id="tbodyitem">
-                            <c:if test="${!empty dataEdit.detailData}">
-                            <c:forEach items="${dataEdit.detailData}" var="data1">
-                                <tr>
-                                    <td>${data1.kode_barang}<input type="hidden" name="kodebarang" value="${data1.kode_barang}"></td>
-                                    <td>${data1.nama_barang}<input type="hidden" name="namabarang" value="${data1.nama_barang}"></td>
-                                    <td><input type="text" class="form-control numberfilter" name="jumlah" style="text-align: right;" value="${data1.jumlah}"/></td>
-                                    <td><input type="text" class="form-control numberfilter" name="harga" style="text-align: right;" value="${data1.harga}"/></td>
-                                    <td><input type="text" class="form-control numberfilter" name="diskon" style="text-align: right;" value="${data1.diskon}"/></td>
-                                    <td><input type="text" class="form-control numberfilter" name="total" style="text-align: right;" value="${data1.total}"/></td>
-                                    <c:if test="${empty isDetail}">
-                                    <td><button type="button" class="btn btn-danger btdeleteitem">Delete</button></td>
-                                    </c:if>
-                                </tr>
-                            </c:forEach>
-                            </c:if>
-                            <c:if test="${empty isDetail}">
-				<tr>
-                                    <td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>
-					<td><input type="text" class="form-control" id="namabarang" name="namabarang" placeholder="Barang"></td>
-					<td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>
-                                        <td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>
-                                        <td><input type="text" class="form-control numberfilter diskon" name="diskon" value="0" style="text-align: right;"/></td>
-                                        <td><input type="text" class="form-control numberfilter total" name="total" value="0" style="text-align: right;"/></td>
-					<td><button type="button" class="btn btn-danger btdeleteitem">Delete</button></td>
-				</tr>
-
-				</c:if>
+                        <c:if test="${!empty dataEdit.detailData}">
+                        <c:forEach items="${dataEdit.detailData}" var="data1">
+                            <tr>
+                                <td>${data1.kode_barang}<input type="hidden" name="kodebarang" value="${data1.kode_barang}"></td>
+                                <td>${data1.nama_barang}<input type="hidden" name="namabarang" value="${data1.nama_barang}"></td>
+                                <td><input type="text" class="form-control numberfilter" name="jumlah" style="text-align: right;" value="${data1.jumlah}"/></td>
+                                <td><input type="text" class="form-control numberfilter" name="harga" style="text-align: right;" value="${data1.harga}"/></td>
+                                <td><input type="text" class="form-control numberfilter" name="diskon" style="text-align: right;" value="${data1.diskon}"/></td>
+                                <td><input type="text" class="form-control numberfilter" name="total" style="text-align: right;" value="${data1.total}"/></td>
+                                <c:if test="${empty isDetail}">
+                                <td><button type="button" class="btn btn-danger btdeleteitem">Delete</button></td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                        </c:if>
+                        <c:if test="${empty isDetail}">
+                            <tr>
+                                <td><span id="kodebarang_text"></span><input type="hidden" id="kodebarang" name="kodebarang"></td>
+                                <td><input type="text" class="form-control" id="namabarang" name="namabarang" placeholder="Barang"></td>
+                                <td><input type="text" class="form-control numberfilter jumlah" name="jumlah" style="text-align: right;"/></td>
+                                <td><input type="text" class="form-control numberfilter harga" name="harga" style="text-align: right;"/></td>
+                                <td><input type="text" class="form-control numberfilter diskon" name="diskon" value="0" style="text-align: right;"/></td>
+                                <td><input type="text" class="form-control numberfilter total" name="total" value="0" style="text-align: right;"/></td>
+                                <c:if test="${empty isDetail}">
+                                <td><button type="button" class="btn btn-danger btdeleteitem">Delete</button></td>
+                                </c:if>
+                            </tr>
+                        </c:if>
 			</tbody>
 			 <c:if test="${empty isDetail}">
 			<tfoot>
                             <tr>
-                                <td class="text-right" colspan="7">
+                                <td class="text-right" colspan="${empty isDetail ? "7" : "6"}">
                                     <button type="button" id="btnTambahBarang" class="btn btn-success">Tambah Barang</button>
                                 </td>
                             </tr>
@@ -160,10 +162,10 @@ function refreshautocompletebarang() {
 
 function addCommas( sValue ) {
     if (sValue.length > 0 ) {
-    sValue = sValue.replace(/[#.]/g,'');
-    sValue = sValue.replace(/[^0-9\.]/g,'');
-    sValue1 = parseFloat(sValue);
-    sValue = sValue1.toString();
+        sValue = sValue.replace(/[#.]/g,'');
+        sValue = sValue.replace(/[^0-9\.]/g,'');
+        sValue1 = parseFloat(sValue);
+        sValue = sValue1.toString();
         var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
 
         while(sRegExp.test(sValue)) {
@@ -204,7 +206,7 @@ $( document ).ready(function() {
         elemtt = $('#no_faktur');
         if (cansaved && elemtt.val().length < 1){
             cansaved = false;
-            msg = "Isi Nomor PO";
+            msg = "Isi Nomor Faktur";
             elemtt.focus();
         }
         elemtt = $('#tanggal');
@@ -216,7 +218,7 @@ $( document ).ready(function() {
         elemtt = $('#pelanggan');
         if (cansaved && elemtt.val().length < 1){
             cansaved = false;
-            msg = "Isi pelanggan";
+            msg = "Isi Pelanggan";
             elemtt.focus();
         }
         elemtt = $('#pegawai');

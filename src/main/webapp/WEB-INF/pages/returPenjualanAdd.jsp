@@ -71,17 +71,16 @@
 </div>
 <script>
 function makereadonly(elementtt) {
-	elementtt.attr('readonly',true);
-	elementtt.css('background-color','#fff');
-	elementtt.css('border','none');
+    elementtt.attr('readonly',true);
+    elementtt.css('background-color','#fff');
+    elementtt.css('border','none');
 }
-function addCommas( sValue )
-{
+function addCommas( sValue ) {
     if (sValue.length > 0 ) {
-    sValue = sValue.replace(/[#.]/g,'');
-    sValue = sValue.replace(/[^0-9\.]/g,'');
-    sValue1 = parseFloat(sValue);
-    sValue = sValue1.toString();
+        sValue = sValue.replace(/[#.]/g,'');
+        sValue = sValue.replace(/[^0-9\.]/g,'');
+        sValue1 = parseFloat(sValue);
+        sValue = sValue1.toString();
         var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
 
         while(sRegExp.test(sValue)) {
@@ -91,20 +90,20 @@ function addCommas( sValue )
     return sValue;
 }
 $( document ).ready(function() {
-	<c:if test="${!empty isDetail}">
-	makereadonly($('#tanggal'));
-	makereadonly($('#no_faktur'));
-	makereadonly($('#pegawai'));
-	makereadonly($('#pelanggan'));
-	makereadonly($('#kode_barang'));
-	var elamaentt = $('#jumlah');
-	makereadonly(elamaentt);
-	elamaentt.val(addCommas(elamaentt.val()));
-</c:if>
+    <c:if test="${!empty isDetail}">
+    makereadonly($('#tanggal'));
+    makereadonly($('#no_faktur'));
+    makereadonly($('#pegawai'));
+    makereadonly($('#pelanggan'));
+    makereadonly($('#kode_barang'));
+    var elamaentt = $('#jumlah');
+    makereadonly(elamaentt);
+    elamaentt.val(addCommas(elamaentt.val()));
+    </c:if>
 
-makereadonly($('#no_returpenjualan'));
+    makereadonly($('#no_returpenjualan'));
 
-<c:if test="${empty isDetail}">
+    <c:if test="${empty isDetail}">
     $('.form-horizontal').submit(function(e) {
         e.preventDefault();
         var thisform = $(this);
@@ -155,7 +154,6 @@ makereadonly($('#no_returpenjualan'));
         }
 
         if (cansaved) {
-
             $.post('${baseURL}retur-penjualan/validation', thisform.serialize(),function(data){
                 var jobj = data;
                 if (jobj.cansaved == 1) {
