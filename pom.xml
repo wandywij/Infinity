@@ -7,7 +7,7 @@
     <version>1.0-JUALFILM</version>
     <packaging>war</packaging>
 
-    <name>jualfilm Web App</name>
+    <name>jualfilm2</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

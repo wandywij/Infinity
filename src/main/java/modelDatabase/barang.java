@@ -5,12 +5,15 @@
 package modelDatabase;
 
 import java.io.Serializable;
+import java.util.List;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 /**
  *
  * @author ade
@@ -34,7 +37,7 @@ public class barang implements Serializable {
     
     @Column(name = "jumlah_stok")
     private Long jumlah_stok;
-    
+
     public barang() {
         
     }

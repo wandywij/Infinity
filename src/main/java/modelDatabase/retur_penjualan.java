@@ -13,8 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.OneToMany;
 /**
  *
  * @author ade
@@ -22,39 +25,49 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "retur_penjualan")
 public class retur_penjualan {
-    @Id
+    
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false, length = 20)
     private Integer id;
     
+    @Id
     @Column(name = "no_returpenjualan", unique = true, nullable = false, length = 20)
     private String no_returpenjualan;
     
     @Column(name = "tanggal")
     private Timestamp tanggal;
     
-    @OneToOne
-    @JoinColumn(name="no_faktur")
-    private penjualan no_faktur;
+//    @OneToOne
+//    @JoinColumn(name="no_faktur")
+//    private penjualan no_faktur;
+    @Column(name="no_faktur", unique = true, nullable = false, length = 20)
+    private String no_faktur;
+    //private String nomorFaktur;
     
     @OneToOne
     @JoinColumn(name="id_pegawai")
     private pegawai id_pegawai;
     
-    @OneToOne
-    @JoinColumn(name="id_pelanggan")
-    private pelanggan kode_pelanggan;
+    
+//    @OneToOne
+//    @JoinColumn(name="id_pelanggan")
+//    private pelanggan kode_pelanggan;
     
     
-    @OneToOne
-    @JoinColumn(name="id_barang")
-    private barang kode_barang;
+//    @OneToOne
+//    @JoinColumn(name="id_barang")
+//    private barang kode_barang;
     
-    @Column(name = "nama_barang")
-    private String nama_barang;
+//    @Column(name = "id_barang")
+//    private String id_barang;
     
-    @Column(name = "jumlah")
-    private Long jumlah;
+    
+    //@OneToMany(mappedBy = "no_faktur", cascade =  CascadeType.REMOVE, orphanRemoval = true )
+    //private barang kode_barang;
+    
+    @OneToMany(mappedBy = "no_returpenjualan", cascade =  CascadeType.REMOVE, orphanRemoval = true )
+    private List<retur_penjualan_detail> retur_penjualan_detail;
+    
 
     public pegawai getId_pegawai() {
         return id_pegawai;
@@ -64,12 +77,12 @@ public class retur_penjualan {
         this.id_pegawai = id_pegawai;
     }
 
-    public barang getKode_barang() {
-        return kode_barang;
+    public List<retur_penjualan_detail> getReturPenjualanDetail() {
+        return retur_penjualan_detail;
     }
 
-    public void setKode_barang(barang kode_barang) {
-        this.kode_barang = kode_barang;
+    public void setReturPenjualanDetail(List<retur_penjualan_detail> kode_barang) {
+        this.retur_penjualan_detail = kode_barang;
     }
 
 
@@ -81,37 +94,24 @@ public class retur_penjualan {
         this.tanggal = tanggal;
     }
 
-    public Long getJumlah() {
-        return jumlah;
-    }
-
-    public void setJumlah(Long jumlah) {
-        this.jumlah = jumlah;
-    }
-
-    public pelanggan getKode_pelanggan() {
-        return kode_pelanggan;
-    }
-
-    public void setKode_pelanggan(pelanggan kode_pelanggan) {
-        this.kode_pelanggan = kode_pelanggan;
-    }
-
-    public String getNama_barang() {
-        return nama_barang;
-    }
-
-    public void setNama_barang(String nama_barang) {
-        this.nama_barang = nama_barang;
-    }
-
-    public penjualan getNo_faktur() {
+    public String getNo_faktur() {
         return no_faktur;
     }
 
-    public void setNo_faktur(penjualan no_faktur) {
+    public void setNo_faktur(String no_faktur) {
         this.no_faktur = no_faktur;
     }
+    
+    
+//    public void setNomorFaktur(String nomor_faktur)
+//    {
+//        nomorFaktur = nomor_faktur;
+//    }
+//    
+//    public String getNomorFaktur()
+//    {
+//        return nomorFaktur;
+//    }
 
     public String getNo_returpenjualan() {
         return no_returpenjualan;

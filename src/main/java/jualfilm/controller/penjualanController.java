@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import modelDatabase.hibernateUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import modelDatabase.Util;
 
 import modelDatabase.barang;
 import modelDatabase.detail_penjualan;
@@ -113,13 +114,16 @@ public class penjualanController {
         Criteria criteria = session.createCriteria(penjualan.class).setProjection(Projections.property("id"));
         criteria.addOrder(Order.desc("id"));
         criteria.setMaxResults(1);
-        String kodedata = "JAL-0001";
+        final String monthYear = Util.convertTime(System.currentTimeMillis());
+        final String prefix = "SO" + monthYear + "-";
+        String kodedata = prefix + "0001";
+        
         if (criteria.uniqueResult() != null ) {
             kodedata = String.valueOf(Integer.valueOf(criteria.uniqueResult().toString())+1);
             while (kodedata.length() < 4) {
                 kodedata = "0"+kodedata;
             }
-            kodedata = "JAL-"+kodedata;
+            kodedata = prefix + kodedata;
         }
         mapDAta.put("no_faktur", kodedata);
         model.addAttribute("dataEdit", mapDAta);
@@ -241,7 +245,7 @@ public class penjualanController {
         String msg = "";
         int cansaved = 1;
         JSONObject jobj = new JSONObject();
-         String kodebarang = request.getParameter("no_faktur");
+        String kodebarang = request.getParameter("no_faktur");
         
         
         Session session = hibernateUtil.getSessionFactory().openSession();
@@ -474,7 +478,14 @@ public class penjualanController {
     
     @RequestMapping(value="penjualan/laporan/detail/{kode}", method = RequestMethod.GET)
     public String laporanDetailList(ModelMap model, @PathVariable(value = "kode") String kode) {
-    	SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    	model = getModel(model, kode);
+        final String viewReturn = "redirect:/penjualan/laporan";
+    	return viewReturn;
+    }
+    
+    public ModelMap getModel(ModelMap model, String kode)
+    {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	List dataShow = new ArrayList();
     	Session session = hibernateUtil.getSessionFactory().openSession();
     	String viewReturn = "redirect:/penjualan/laporan";
@@ -498,16 +509,23 @@ public class penjualanController {
 			}
     		model.addAttribute("total", total);
     		model.addAttribute("dataList", dataShow);
-    		viewReturn = "penjualanLaporanDetail";
+    		
     	}
     	session.close();
-    	return viewReturn;
+        return model;
     }
 
     @RequestMapping(value="penjualan/one-detail/{kode}", method = RequestMethod.GET)
-    public String dataEdit(ModelMap model, HttpServletRequest request, 
+    public String dataEdit(ModelMap model, /*HttpServletRequest request, */
             @PathVariable(value = "kode") String kode ) {
-        String returndata = "redirect:/penjualan";
+        String returndata = "redirect:/penjualan";       
+        model = getDataPenjualan(model, kode);
+        returndata = "penjualanAdd";
+        return returndata;
+    }
+    
+    public ModelMap getDataPenjualan(ModelMap model, String kode)
+    {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Session session = hibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(penjualan.class);
@@ -543,10 +561,10 @@ public class penjualanController {
            modelHere.put("detailData", detailData);
 	        model.addAttribute("dataEdit", modelHere);
 	        model.addAttribute("isDetail", true);
-	        returndata = "penjualanAdd";
+	        
         }
         session.close();
         model.addAttribute("headerapps", "Detail Nota Penjualan");
-        return returndata;
+        return model;
     }
 }
