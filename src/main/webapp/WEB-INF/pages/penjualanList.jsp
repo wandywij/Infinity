@@ -7,12 +7,26 @@
 --%>
 <%@include file="/WEB-INF/layout/header.jsp" %>
 <div class="row">
-	<div class="col-xs-8">
+    <table class="table">
+        <tr>
+            <td><h1>Penjualan</h1></td>
+            <td class="pull-right">
+                <a href="${baseURL}penjualan/add" class="btn btn-success">Tambah Baru</a>
+            </td>
+            <td class="pull-right">
+                <input type="text" class="form-control" id="search_penjualan" name="search_penjualan" 
+                   style="text-align: right;" placeholder="Nomor Faktur" />
+            </td>
+        </tr>
+    </table>
+<!--	<div class="col-xs-8">
 		<h1>Penjualan</h1>
 	</div>
-	<div class="col-xs-4 text-right">
-		<a href="${baseURL}penjualan/add" class="btn btn-success">Tambah Baru</a>
-	</div>
+	<div class="col-xs-4 pull-right">
+            <input type="text" class="form-control" id="search_penjualan" name="search_penjualan" 
+                   style="text-align: right;" placeholder="Nomor Faktur" />
+             <a href="${baseURL}penjualan/add" class="btn btn-success">Tambah Baru</a>
+	</div>-->
 </div>
 
 <div class="row">
@@ -53,6 +67,39 @@
 	</div>
 </div>
 <script>
+function refreshAutoCompletePenjualan() {
+    var cacheBarang = {};
+    $('#search_penjualan').autocomplete({
+        minLength: 0;
+        source: function (request, response) {
+            var term = request.term;
+            if (term[0] == "(" && term.indexOf(")", 1) != -1) 
+                request.term = term = term.substring(1, term.indexOf(")", 1));
+            if (term in cacheBarang) {
+                response(cacheBarang[term]);
+                return;
+            }
+            $.getJSON("${baseURL}penjualan2.json", request, function (data, status, xhr) {
+                    cacheBarang[term] = data;
+                    response(data);
+                });
+        },
+        select: function (event, ui) {
+            var tmp = ui.item.value;
+            var tmp2 = tmp.indexOf("/ ", 1);
+            var nama = tmp.substring(1, tmp2);
+            var kode = tmp.substring(tmp2 + 2);
+//                $("#kodebarang_text").html(kode);
+//                $("#kodebarang").val(kode);
+//                $("#namabarang").val(nama);
+            //$('#content').replaceWith()'${baseURL}karyawan/' + kode);
+            $('#content').load('${baseURL}penjualan/' + kode);            
+            return false;
+        }
+     });
+}
+refreshAutoCompletePenjualan();
+
 function addCommas( sValue ) 
 {
     if (sValue.length > 0 ) {

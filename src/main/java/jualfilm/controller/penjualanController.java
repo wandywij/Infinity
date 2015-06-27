@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,9 +39,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.json.JSONArray;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.json.JSONObject;
 /**
@@ -481,6 +484,29 @@ public class penjualanController {
     	model = getModel(model, kode);
         final String viewReturn = "redirect:/penjualan/laporan";
     	return viewReturn;
+    }
+    
+    @RequestMapping(value = "penjualan2.json", produces = "application/json; charset=utf-8", method = RequestMethod.GET)
+    @ResponseBody
+    public String autocompletePenjualan(HttpServletRequest request) {
+        
+        JSONArray jsonArrayy = new JSONArray();
+        String q = request.getParameter("term");
+
+        final String sql = "Select no_faktur from penjualan where no_faktur like " +
+                "'%" +q + "%'";
+        Session session = hibernateUtil.getSessionFactory().openSession();
+        Query query  = session.createSQLQuery(sql);
+
+        List<penjualan> result = (List<penjualan>) query.list();
+        Iterator itr = result.iterator();
+        List dataShow = new ArrayList();
+        while (itr.hasNext()) {
+            Object[] obj = (Object[]) itr.next();
+            jsonArrayy.put(obj[0].toString());
+        }
+        session.close();
+        return jsonArrayy.toString();
     }
     
     public ModelMap getModel(ModelMap model, String kode)
